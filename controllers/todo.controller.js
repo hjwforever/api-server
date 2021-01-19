@@ -1,25 +1,10 @@
-const db = require("../models");
+const db = require('../models')
 const Todos = db.todos;
 const Op = db.Sequelize.Op;
 
-const getPagination = (page, size) => {
-  const limit = size ? +size : 3;
-  const offset = page ? page * limit : 0;
-
-  return { limit, offset };
-};
-
-const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: todos } = data;
-  const currentPage = (page ? +page : 0) + 1;
-  const totalPages = Math.ceil(totalItems / limit);
-
-  return { totalItems, todos , totalPages, currentPage };
-};
-
 // 创建并保存一条Todo
 exports.create = (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   if (!req.body.title) {
     res.status(400).send({
       isOk: 0,
@@ -112,7 +97,7 @@ exports.findOne = (req, res) => {
 
 // 更新一个
 exports.update = (req, res) => {
-  const id = req.query.id;
+  const id = req.query.id || req.body.id;
 
   Todos.update(req.body, {
     where: { id: id }
@@ -143,7 +128,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.body.id;
 
-  if (!id || id === 'all')
+  if (id === 'all')
    this.deleteAll(req, res)
   else
   Todos.destroy({
@@ -154,7 +139,7 @@ exports.delete = (req, res) => {
         isOk: 1,
         msg: ''
       }
-      console.log(num)
+
       if (num === 1 || num[0] === 1) { // 删除成功
         data.msg = "Todo was deleted successfully!";
       } else {
@@ -192,11 +177,15 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-// 创建评论
+exports.favorite = (req, res) => {
+
+}
+// 创建Todo
 exports.createTodo = (title, content) => {
   return Todos.create({
     title: title,
     content: content,
+    fav: false
   })
     .then((todo) => {
       console.log(">> Created todo: " + JSON.stringify(todo, null, 4));

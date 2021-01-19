@@ -4,22 +4,19 @@ module.exports = app => {
   const router = require("express").Router();
 
   // 创建并保存Todo
-  router.post("/", todos.create);
+  router.put("/", todos.create);
 
   // 按条件查找所有Todo信息
-  router.get("/", todos.findAll);
-
-/*  // 查找指定id的Todo信息
-  router.get("/", todos.findOne);*/
+  router.get("/list", todos.findAll);
 
   // 更新指定id的Todo信息
-  router.put("/", todos.update);
+  router.post("/", todos.update);
+
+  // 更新指定id的Todo信息
+  router.post("/fav", todos.update);
 
   // 删除指定id的Todo信息
   router.delete("/", todos.delete);
-
-/*  // 删除所有Todo
-  router.delete("/", todos.deleteAll);*/
 
   app.use('/todo', router);
 };

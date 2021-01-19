@@ -1,14 +1,18 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   const Todo = sequelize.define("todo", {
 /*    id: {
       type: DataTypes.INTEGER,
       primaryKey: true
     },*/
     title: {
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     },
     content: {
-      type: DataTypes.STRING
+      type: Sequelize.STRING
+    },
+    fav: {
+      type: Sequelize.BOOLEAN,
+      default: false
     }
   },{
     timestamps: true,
